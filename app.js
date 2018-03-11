@@ -10,7 +10,7 @@ const cors = require('cors')
 const server = require('http').createServer(app)
 const path = require('path')
 
-const port = 1337
+const port = process.env.PORT || 1337
 var email_array = []
 var file_name = 'files/formated_mails.txt'
 
