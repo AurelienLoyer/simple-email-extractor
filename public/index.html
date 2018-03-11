@@ -46,18 +46,29 @@
             text-transform: uppercase;
         }
 
+        #loader {
+            background-image: url('https://cdn.dribbble.com/users/816967/screenshots/4202504/mail-notif.gif');
+            height: 45px;
+            width: 200px;
+            margin: auto;
+            margin-top: 25px;
+            background-position: center;
+            background-size: 120%;
+            display: none;
+        }
+
         footer {
             font-size: .8em;
             position: fixed;
             width: 100%;
             bottom: 0;
             background-color: white;
-            color: black;
+            color: #2D2D2D;
             padding: 5px 10px;
         }
 
         footer a {
-            color: black
+            color: #2D2D2D
         }
 
         footer .fa-heart {
@@ -70,7 +81,7 @@
 
     <h1>
         Simple
-        <i class="fas fa-envelope-square"></i> 
+        <i class="fas fa-envelope-square"></i>
         Email Extractor
     </h1>
 
@@ -80,7 +91,8 @@
         <label for="files">
             <input type="file" name="uploads" id="files">
         </label>
-        <button type="submit" name="submit">extract to txt</button>
+        <button id="submit" type="submit" name="submit">extract to txt</button>
+        <div id="loader" alt=""></div>
     </form>
 
     <div id="result">
@@ -106,8 +118,15 @@
 
                 var request = new XMLHttpRequest()
 
+                document.getElementById('submit').style.display = 'none';
+                document.getElementById('loader').style.display = 'inline-block';
+
                 request.onreadystatechange = function () {
                     if (request.readyState === 4) {
+
+                        document.getElementById('submit').style.display = 'inline-block';
+                        document.getElementById('loader').style.display = 'none';
+
                         var blob = new Blob([request.response]);
                         var link = document.createElement('a');
                         link.href = window.URL.createObjectURL(blob);
