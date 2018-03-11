@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Simple Email Extractor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+
+
+    <style>
+        body {
+            text-align: center;
+            height: 100%;
+            color: white;
+            background: crimson;
+            font-family: 'Lato', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .logo {
+            margin-top: 60px;
+            font-size: 3em;
+        }
+
+        h1 {
+            margin: 50px auto 50px
+        }
+
+        form input {
+            display: block;
+            margin: auto;
+            border: 2px white dashed;
+            padding: 55px;
+        }
+
+        form button {
+            border: none;
+            width: 350px;
+            height: 40px;
+            margin-top: 25px;
+            text-transform: uppercase;
+        }
+
+        footer {
+            font-size: .8em;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            background-color: white;
+            color: black;
+            padding: 5px 10px;
+        }
+
+        footer a {
+            color: black
+        }
+
+        footer .fa-heart {
+            color: crimson;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>
+        Simple
+        <i class="fas fa-envelope-square"></i> 
+        Email Extractor
+    </h1>
+
+    <h3>Current accepted format: .xls .xlsx .csv</h3>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data" name="form" id="upload-form">
+        <label for="files">
+            <input type="file" name="uploads" id="files">
+        </label>
+        <button type="submit" name="submit">extract to txt</button>
+    </form>
+
+    <div id="result">
+    </div>
+
+    <footer>
+        Made with
+        <i class="fas fa-heart"></i> by
+        <a target="_blank" href="http://aurelien-loyer.fr/">Aurélien</a>
+        |
+        <a target="_blank" href="https://github.com/T3kstiil3/simple-email-extractor">
+            <i class="fab fa-github"></i> Contribute</a>
+    </footer>
+
+    <script>
+        // Move to js file
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById('upload-form').addEventListener("submit", function (e) {
+                e.preventDefault()
+                var form = e.target
+                var data = new FormData(form)
+
+                var request = new XMLHttpRequest()
+
+                request.onreadystatechange = function () {
+                    if (request.readyState === 4) {
+                        var blob = new Blob([request.response]);
+                        var link = document.createElement('a');
+                        link.href = window.URL.createObjectURL(blob);
+                        link.download = "email-list.txt";
+                        link.click();
+                    }
+                }
+
+                request.open(form.method, form.action)
+                request.send(data)
+            })
+        })
+    </script>
+</body>
+
+</html>
